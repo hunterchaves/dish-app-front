@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of, map } from 'rxjs';
 import { Order, OrderStatus } from '../models';
 import { CartItem } from './cart.service';
 
@@ -8,31 +7,56 @@ import { CartItem } from './cart.service';
   providedIn: 'root'
 })
 export class OrderService {
-  private apiUrl = 'http://localhost:8080/api/orders';
+  private ordersSubject = new BehaviorSubject<Order[]>([]);
+  orders$ = this.ordersSubject.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor() { }
 
   placeOrder(cartItems: CartItem[], total: number): Observable<Order> {
-    const newOrder = {
+    const newOrder: Order = {
+      id: Date.now().toString() + Math.random().toString(36).substring(2),
       items: cartItems,
       total,
       status: 'Pendente',
       timestamp: new Date()
     };
-    return this.http.post<Order>(this.apiUrl, newOrder);
+
+    const currentOrders = this.ordersSubject.getValue();
+    this.ordersSubject.next([...currentOrders, newOrder]);
+
+    // Simulate status changes
+    this.simulateOrderStatusChange(newOrder.id);
+
+    return of(newOrder);
   }
 
   getOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(this.apiUrl);
+    return this.orders$;
   }
 
-  getOrderById(id: string): Observable<Order> {
-    return this.http.get<Order>(`${this.apiUrl}/${id}`);
+  getOrderById(id: string): Observable<Order | undefined> {
+    return this.orders$.pipe(
+      map(orders => orders.find(order => order.id === id))
+    );
   }
 
-  updateOrderStatus(orderId: string, status: OrderStatus): Observable<Order> {
-    return this.http.put<Order>(`${this.apiUrl}/${orderId}/status`, { status });
+  updateOrderStatus(orderId: string, status: OrderStatus): void {
+    const currentOrders = this.ordersSubject.getValue();
+    const orderIndex = currentOrders.findIndex(order => order.id === orderId);
+
+    if (orderIndex > -1) {
+      currentOrders[orderIndex].status = status;
+      this.ordersSubject.next([...currentOrders]);
+    }
   }
 
+  private simulateOrderStatusChange(orderId: string): void {
+    setTimeout(() => {
+      this.updateOrderStatus(orderId, 'Em Preparo');
+    }, 5000); // 5 seconds to 'Em Preparo'
 
+    setTimeout(() => {
+      this.updateOrderStatus(orderId, 'Saiu para Entrega');
+    }, 15000); // 15 seconds to 'Saiu para Entrega'
+  }
 }

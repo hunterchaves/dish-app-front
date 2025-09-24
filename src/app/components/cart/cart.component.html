@@ -1,14 +1,14 @@
 <h2>Seu Carrinho</h2>
 <div class="cart-container">
-  <div *ngIf="(cart$ | async) as cart; else emptyCart">
-    <div *ngIf="cart.items && cart.items.length > 0; else emptyCart">
-      <div *ngFor="let item of cart.items" class="cart-item">
+  <div *ngIf="(items$ | async) as items; else emptyCart">
+    <div *ngIf="items.length > 0; else emptyCart">
+      <div *ngFor="let item of items" class="cart-item">
         <span class="item-name">{{ item.dish.name }}</span>
         <span class="item-quantity">Qtd: {{ item.quantity }}</span>
         <span class="item-price">{{ (item.dish.price * item.quantity) | currency:'BRL' }}</span>
       </div>
       <div class="cart-total">
-        <strong>Total: {{ cart.total | currency:'BRL' }}</strong>
+        <strong>Total: {{ (total$ | async) | currency:'BRL' }}</strong>
       </div>
       <button (click)="placeOrder()" class="place-order-btn">Finalizar Pedido</button>
     </div>

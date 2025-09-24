@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { CartService } from './services/cart.service';
 
 @Component({
@@ -17,8 +16,6 @@ export class AppComponent {
   cartItemCount$: Observable<number>;
 
   constructor(private cartService: CartService) {
-    this.cartItemCount$ = this.cartService.getCart().pipe(
-      map(cart => cart.itemCount)
-    );
+    this.cartItemCount$ = this.cartService.getCartItemCount();
   }
 }

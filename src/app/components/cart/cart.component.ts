@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { Observable, take, switchMap } from 'rxjs';
-import { CartService, Cart } from '../../services/cart.service';
+import { Observable, take, switchMap, map } from 'rxjs';
+import { CartService, CartItem } from '../../services/cart.service';
 import { OrderService } from '../../services/order.service';
 
 @Component({
@@ -13,7 +13,8 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  cart$!: Observable<Cart>;
+  items$!: Observable<CartItem[]>;
+  total$!: Observable<number>;
 
   constructor(
     private cartService: CartService,
@@ -22,23 +23,25 @@ export class CartComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cart$ = this.cartService.getCart();
+    this.items$ = this.cartService.items$;
+    this.total$ = this.cartService.getCartTotal();
   }
 
   placeOrder(): void {
-    this.cart$.pipe(
+    this.items$.pipe(
       take(1),
-      switchMap(cart => {
-        if (!cart || cart.items.length === 0) {
+      switchMap(items => {
+        if (items.length === 0) {
           throw new Error('O carrinho está vazio!');
         }
-        return this.orderService.placeOrder(cart.items, cart.total);
+        return this.total$.pipe(take(1), map(total => ({ items, total })));
       }),
-      switchMap(order => this.cartService.clearCart().pipe(
-        // Return the order object after clearing the cart
-        switchMap(() => this.router.navigate(['/pedido', order.id]))
-      ))
+      switchMap(({ items, total }) => this.orderService.placeOrder(items, total))
     ).subscribe({
+      next: (order) => {
+        this.cartService.clearCart();
+        this.router.navigate(['/pedido', order.id]);
+      },
       error: (err) => alert(err.message)
     });
   }
