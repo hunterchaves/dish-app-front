@@ -4,9 +4,11 @@ import { CartComponent } from './components/cart/cart.component';
 import { OrderStatusComponent } from './components/order-status/order-status.component';
 import { AdminOrdersComponent } from './components/admin-orders/admin-orders.component';
 import { DishFormComponent } from './components/dish-form/dish-form.component';
+import { KitchenViewComponent } from './components/kitchen-view/kitchen-view.component';
 
 export const routes: Routes = [
   { path: '', component: DishListComponent, pathMatch: 'full' },
+  { path: 'cozinha', component: KitchenViewComponent },
   { path: 'carrinho', component: CartComponent },
   { path: 'pedido/:id', component: OrderStatusComponent },
   { 

@@ -33,4 +33,12 @@ export class OrderService {
   updateOrderStatus(orderId: string, status: OrderStatus): Observable<Order> {
     return this.http.put<Order>(`${this.apiUrl}/${orderId}/status`, { status });
   }
+
+  updateOrder(orderId: string, order: Partial<Order>): Observable<Order> {
+    return this.http.put<Order>(`${this.apiUrl}/${orderId}`, order);
+  }
+
+  deleteOrder(orderId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${orderId}`);
+  }
 }

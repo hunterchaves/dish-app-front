@@ -9,9 +9,11 @@
             <th>ID do Pedido</th>
             <th>Horário</th>
             <th>Itens</th>
+            <th>Observação</th>
             <th>Total</th>
             <th>Status Atual</th>
             <th>Mudar Status</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -25,6 +27,7 @@
                 </li>
               </ul>
             </td>
+            <td>{{ order.observation }}</td>
             <td>{{ order.total | currency:'BRL' }}</td>
             <td><strong>{{ order.status }}</strong></td>
             <td>
@@ -33,6 +36,10 @@
                   {{ status }}
                 </option>
               </select>
+            </td>
+            <td>
+              <button (click)="editObservation(order)" class="edit-btn">Observação</button>
+              <button (click)="deleteOrder(order.id)" class="delete-btn">Deletar</button>
             </td>
           </tr>
         </tbody>

@@ -1,0 +1,49 @@
+.kitchen-container {
+  padding: 20px;
+}
+
+.order-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.order-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  width: 300px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.order-card h3 {
+  margin-top: 0;
+}
+
+.order-card ul {
+  padding-left: 20px;
+}
+
+.order-card button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.order-card button:hover {
+  background-color: #0056b3;
+}
+
+/* Status-based styling */
+.status-Pendente {
+  background-color: #fff3cd;
+}
+
+.status-Em-Preparo {
+  background-color: #d1ecf1;
+}

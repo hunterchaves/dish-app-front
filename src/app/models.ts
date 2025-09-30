@@ -13,4 +13,5 @@ export interface Order {
   total: number;
   status: OrderStatus;
   timestamp: Date;
+  observation?: string;
 }
