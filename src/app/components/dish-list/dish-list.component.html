@@ -1,0 +1,11 @@
+<h2> Cardápio</h2>
+<div class="dish-container">
+  <div *ngFor="let dish of dishes" class="dish-card">
+    <div class="dish-info">
+      <h3>{{ dish.name }}</h3>
+      <p>{{ dish.description }}</p>
+      <p class="price">{{ dish.price | currency:'BRL' }}</p>
+      <button (click)="addToCart(dish)">Adicionar ao Carrinho</button>
+    </div>
+  </div>
+</div>

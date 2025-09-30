@@ -1,0 +1,23 @@
+<h2>Seu Carrinho</h2>
+<div class="cart-container">
+  <div *ngIf="(items$ | async) as items; else emptyCart">
+    <div *ngIf="items.length > 0; else emptyCart">
+      <div *ngFor="let item of items" class="cart-item">
+        <span class="item-name">{{ item.dish.name }}</span>
+        <span class="item-quantity">Qtd: {{ item.quantity }}</span>
+        <span class="item-price">{{ (item.dish.price * item.quantity) | currency:'BRL' }}</span>
+      </div>
+      <div class="cart-total">
+        <strong>Total: {{ (total$ | async) | currency:'BRL' }}</strong>
+      </div>
+      <button (click)="checkout()" class="place-order-btn">Finalizar Pedido</button>
+    </div>
+  </div>
+</div>
+
+<ng-template #emptyCart>
+  <div class="empty-cart-message">
+    <p>Seu carrinho está vazio.</p>
+    <a routerLink="/">Ver cardápio</a>
+  </div>
+</ng-template>
