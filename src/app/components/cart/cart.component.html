@@ -4,8 +4,10 @@
     <div *ngIf="items.length > 0; else emptyCart">
       <div *ngFor="let item of items" class="cart-item">
         <span class="item-name">{{ item.dish.name }}</span>
+        <p *ngIf="item.observation" class="item-observation"><strong>Observação:</strong> {{ item.observation }}</p>
         <span class="item-quantity">Qtd: {{ item.quantity }}</span>
         <span class="item-price">{{ (item.dish.price * item.quantity) | currency:'BRL' }}</span>
+        <button (click)="removeItem(item.dish.id)" class="remove-btn">Remover</button>
       </div>
       <div class="cart-total">
         <strong>Total: {{ (total$ | async) | currency:'BRL' }}</strong>

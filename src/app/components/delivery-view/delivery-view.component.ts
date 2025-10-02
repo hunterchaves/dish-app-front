@@ -6,13 +6,13 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-kitchen-view',
+  selector: 'app-delivery-view',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './kitchen-view.component.html',
-  styleUrls: ['./kitchen-view.component.css']
+  templateUrl: './delivery-view.component.html',
+  styleUrls: ['./delivery-view.component.css']
 })
-export class KitchenViewComponent implements OnInit {
+export class DeliveryViewComponent implements OnInit {
   orders$!: Observable<Order[]>;
 
   constructor(private orderService: OrderService) { }
@@ -23,20 +23,16 @@ export class KitchenViewComponent implements OnInit {
 
   loadOrders(): void {
     this.orders$ = this.orderService.getOrders().pipe(
-      map(orders => orders.filter(order => order.status === 'Pendente'))
+      map(orders => orders
+        .filter(order => order.status === 'Pronto para Retirada')
+        .sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
+      )
     );
   }
 
-  updateStatus(order: Order, newStatus: OrderStatus): void {
-    this.orderService.updateOrderStatus(order.id, newStatus).subscribe(() => {
+  confirmDelivery(order: Order): void {
+    this.orderService.updateOrderStatus(order.id, 'Entregue').subscribe(() => {
       this.loadOrders();
     });
-  }
-
-  getNextStatus(currentStatus: OrderStatus): OrderStatus | null {
-    if (currentStatus === 'Pendente') {
-      return 'Em Preparo';
-    }
-    return null;
   }
 }

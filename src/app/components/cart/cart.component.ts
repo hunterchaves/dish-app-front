@@ -28,4 +28,8 @@ export class CartComponent implements OnInit {
   checkout(): void {
     this.router.navigate(['/payment']);
   }
+
+  removeItem(dishId: number): void {
+    this.cartService.removeItem(dishId);
+  }
 }

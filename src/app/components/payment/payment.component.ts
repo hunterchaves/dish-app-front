@@ -41,7 +41,7 @@ export class PaymentComponent implements OnInit {
     ).subscribe(order => {
       if (order) {
         this.cartService.clearCart();
-        this.router.navigate(['/pedido', order.id]);
+        this.router.navigate(['/entregas']);
       }
     });
   }

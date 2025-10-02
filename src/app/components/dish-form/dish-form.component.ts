@@ -16,7 +16,8 @@ export class DishFormComponent {
   dish: Omit<Dish, 'id'> = {
     name: '',
     description: '',
-    price: 0
+    price: 0,
+    imageUrl: ''
   };
 
   constructor(
@@ -28,7 +29,7 @@ export class DishFormComponent {
     this.dishService.createDish(this.dish).subscribe(() => {
       alert('Prato cadastrado com sucesso!');
       // Reset form
-      this.dish = { name: '', description: '', price: 0 };
+      this.dish = { name: '', description: '', price: 0, imageUrl: '' };
       // Optionally, navigate away
       // this.router.navigate(['/admin/pedidos']);
     });

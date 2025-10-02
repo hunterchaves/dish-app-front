@@ -27,7 +27,8 @@ export class DishListComponent implements OnInit {
   }
 
   addToCart(dish: Dish): void {
-    this.cartService.addToCart(dish);
+    const observation = prompt(`Deseja adicionar alguma observação para o prato ${dish.name}?`);
+    this.cartService.addToCart(dish, observation || undefined);
     alert(`${dish.name} foi adicionado ao carrinho!`);
   }
 }

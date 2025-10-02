@@ -3,9 +3,10 @@ export interface Dish {
   name: string;
   description: string;
   price: number;
+  imageUrl: string;
 }
 
-export type OrderStatus = 'Pendente' | 'Em Preparo' | 'Saiu para Entrega' | 'Entregue';
+export type OrderStatus = 'Pendente' | 'Em Preparo' | 'Pronto para Retirada' | 'Saiu para Entrega' | 'Entregue' | 'Cancelado';
 
 export interface Order {
   id: string;

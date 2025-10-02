@@ -6,6 +6,7 @@ import { Dish } from '../models';
 export interface CartItem {
   dish: Dish;
   quantity: number;
+  observation?: string;
 }
 
 @Injectable({
@@ -17,14 +18,33 @@ export class CartService {
 
   constructor() { }
 
-  addToCart(dish: Dish): void {
+  addToCart(dish: Dish, observation?: string): void {
     const currentItems = this.itemsSubject.getValue();
     const existingItem = currentItems.find(item => item.dish.id === dish.id);
 
     if (existingItem) {
       existingItem.quantity++;
+      if (observation) {
+        existingItem.observation = observation;
+      }
     } else {
-      currentItems.push({ dish, quantity: 1 });
+      currentItems.push({ dish, quantity: 1, observation });
+    }
+
+    this.itemsSubject.next([...currentItems]);
+  }
+
+  removeItem(dishId: number): void {
+    const currentItems = this.itemsSubject.getValue();
+    const existingItem = currentItems.find(item => item.dish.id === dishId);
+
+    if (existingItem) {
+      if (existingItem.quantity > 1) {
+        existingItem.quantity--;
+      } else {
+        const index = currentItems.findIndex(item => item.dish.id === dishId);
+        currentItems.splice(index, 1);
+      }
     }
 
     this.itemsSubject.next([...currentItems]);

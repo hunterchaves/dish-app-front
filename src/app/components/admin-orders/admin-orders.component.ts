@@ -13,7 +13,7 @@ import { Order, OrderStatus } from '../../models';
 })
 export class AdminOrdersComponent implements OnInit {
   orders$!: Observable<Order[]>;
-  orderStatuses: OrderStatus[] = ['Pendente', 'Em Preparo', 'Saiu para Entrega', 'Entregue'];
+  orderStatuses: OrderStatus[] = ['Pendente', 'Em Preparo', 'Pronto para Retirada', 'Saiu para Entrega', 'Entregue', 'Cancelado'];
 
   constructor(private orderService: OrderService) {}
 
@@ -31,6 +31,14 @@ export class AdminOrdersComponent implements OnInit {
     this.orderService.updateOrderStatus(orderId, newStatus).subscribe(() => {
       this.loadOrders();
     });
+  }
+
+  cancelOrder(orderId: string): void {
+    if (confirm('Tem certeza que deseja cancelar este pedido?')) {
+      this.orderService.updateOrderStatus(orderId, 'Cancelado').subscribe(() => {
+        this.loadOrders();
+      });
+    }
   }
 
   deleteOrder(orderId: string): void {
