@@ -12,12 +12,13 @@ export class OrderService {
 
   constructor(private http: HttpClient) { }
 
-  placeOrder(cartItems: CartItem[], total: number): Observable<Order> {
+  placeOrder(cartItems: CartItem[], total: number, observation?: string): Observable<Order> {
     const newOrder = {
       items: cartItems,
       total,
       status: 'Pendente',
-      timestamp: new Date()
+      timestamp: new Date(),
+      observation
     };
     return this.http.post<Order>(this.apiUrl, newOrder);
   }

@@ -16,7 +16,14 @@ export class CartService {
   private itemsSubject = new BehaviorSubject<CartItem[]>([]);
   items$ = this.itemsSubject.asObservable();
 
+  private observationSubject = new BehaviorSubject<string>('');
+  observation$ = this.observationSubject.asObservable();
+
   constructor() { }
+
+  setObservation(observation: string): void {
+    this.observationSubject.next(observation);
+  }
 
   addToCart(dish: Dish, observation?: string): void {
     const currentItems = this.itemsSubject.getValue();
@@ -58,6 +65,7 @@ export class CartService {
 
   clearCart(): void {
     this.itemsSubject.next([]);
+    this.observationSubject.next('');
   }
 
   getCartItemCount(): Observable<number> {
