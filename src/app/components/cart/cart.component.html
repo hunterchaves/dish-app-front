@@ -12,12 +12,6 @@
       <div class="cart-total">
         <strong>Total: {{ (total$ | async) | currency:'BRL' }}</strong>
       </div>
-
-      <div class="observation-section">
-        <label for="observation">Observação:</label>
-        <textarea id="observation" rows="3" #observation (change)="saveObservation(observation.value)"></textarea>
-      </div>
-
       <button (click)="checkout()" class="place-order-btn">Finalizar Pedido</button>
     </div>
   </div>

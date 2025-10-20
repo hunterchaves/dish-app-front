@@ -31,12 +31,12 @@ export class PaymentComponent implements OnInit {
   placeOrder(): void {
     this.cartItems$.pipe(
       take(1),
-      withLatestFrom(this.cartTotal$, this.cartService.observation$),
-      switchMap(([items, total, observation]) => {
+      withLatestFrom(this.cartTotal$),
+      switchMap(([items, total]) => {
         if (items.length === 0) {
           return of(null);
         }
-        return this.orderService.placeOrder(items, total, observation);
+        return this.orderService.placeOrder(items, total);
       })
     ).subscribe(order => {
       if (order) {
