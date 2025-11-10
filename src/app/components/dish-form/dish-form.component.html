@@ -1,0 +1,38 @@
+<div class="container">
+  <h2>Adicionar Novo Prato</h2>
+  <p>Adicione uma imagem e as informações do seu prato.</p>
+
+  <form (ngSubmit)="saveDish()" #dishForm="ngForm" class="dish-form">
+    <div class="form-group">
+      <label for="photoUrl">URL da Imagem</label>
+      <input type="text" id="photoUrl" name="photoUrl" [(ngModel)]="dish.photoUrl" maxlength="255">
+      <small>Cole a URL de uma imagem para o prato.</small>
+    </div>
+
+    <div class="image-preview-container" *ngIf="dish.photoUrl">
+        <label>Pré-visualização da Imagem</label>
+        <img [src]="dish.photoUrl" alt="Imagem do Prato" class="dish-image-preview">
+    </div>
+
+    <div class="form-group">
+      <label for="name">Nome do Prato</label>
+      <input type="text" id="name" name="name" [(ngModel)]="dish.name" required maxlength="100">
+    </div>
+
+    <div class="form-group">
+      <label for="description">Descrição</label>
+      <textarea id="description" name="description" [(ngModel)]="dish.description" required rows="3" maxlength="255"></textarea>
+      <small>Fale um pouco sobre seu prato. Ingredientes, detalhes, etc.</small>
+    </div>
+
+    <div class="form-group">
+      <label for="price">Preço</label>
+      <input type="number" id="price" name="price" [(ngModel)]="dish.price" required>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="cancel-btn">Cancelar</button>
+      <button type="submit" class="save-btn" [disabled]="!dishForm.form.valid">Salvar Alterações</button>
+    </div>
+  </form>
+</div>

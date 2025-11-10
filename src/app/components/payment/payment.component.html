@@ -1,0 +1,75 @@
+<div class="payment-container">
+  <h2>Finalizar Pedido</h2>
+
+  <div class="order-summary">
+    <h3>Resumo do Pedido</h3>
+    <ul>
+      <li *ngFor="let item of (cartItems$ | async)">
+        <span>{{ item.dish.name }} x {{ item.quantity }}</span>
+        <span>{{ item.dish.price * item.quantity | currency:'BRL' }}</span>
+      </li>
+    </ul>
+    <p class="total">Total: <strong>{{ cartTotal$ | async | currency:'BRL' }}</strong></p>
+  </div>
+
+  <div class="payment-method-selection">
+    <h3>Escolha a forma de pagamento</h3>
+    <div class="payment-options-grid">
+      <label class="payment-option-card" [class.selected]="selectedPaymentMethod === PaymentMethod.Dinheiro">
+        <input type="radio" name="payment" [value]="PaymentMethod.Dinheiro" [(ngModel)]="selectedPaymentMethod" hidden>
+        <i class="fas fa-money-bill-wave"></i> <!-- Placeholder for icon -->
+        <span>Dinheiro</span>
+      </label>
+      <label class="payment-option-card" [class.selected]="selectedPaymentMethod === PaymentMethod.Credito">
+        <input type="radio" name="payment" [value]="PaymentMethod.Credito" [(ngModel)]="selectedPaymentMethod" hidden>
+        <i class="fas fa-credit-card"></i> <!-- Placeholder for icon -->
+        <span>Cartão de Crédito</span>
+      </label>
+      <label class="payment-option-card" [class.selected]="selectedPaymentMethod === PaymentMethod.Debito">
+        <input type="radio" name="payment" [value]="PaymentMethod.Debito" [(ngModel)]="selectedPaymentMethod" hidden>
+        <i class="fas fa-credit-card"></i> <!-- Placeholder for icon -->
+        <span>Cartão de Débito</span>
+      </label>
+      <label class="payment-option-card" [class.selected]="selectedPaymentMethod === PaymentMethod.Pix">
+        <input type="radio" name="payment" [value]="PaymentMethod.Pix" [(ngModel)]="selectedPaymentMethod" hidden>
+        <i class="fas fa-qrcode"></i> <!-- Placeholder for icon -->
+        <span>Pix</span>
+      </label>
+    </div>
+
+    <div *ngIf="selectedPaymentMethod === PaymentMethod.Credito || selectedPaymentMethod === PaymentMethod.Debito" class="card-details-form">
+      <h4>Detalhes do Cartão</h4>
+      <div class="form-group">
+        <label for="cardNumber">Número do Cartão</label>
+        <input type="text" id="cardNumber" [(ngModel)]="cardNumber" placeholder="XXXX XXXX XXXX XXXX" maxlength="19">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="cardExpiry">Validade</label>
+          <input type="text" id="cardExpiry" [(ngModel)]="cardExpiry" placeholder="MM/AA" maxlength="5">
+        </div>
+        <div class="form-group">
+          <label for="cardCvv">CVV</label>
+          <input type="text" id="cardCvv" [(ngModel)]="cardCvv" placeholder="XXX" maxlength="4">
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedPaymentMethod === PaymentMethod.Pix" class="pix-details-display">
+      <h4>Pagamento via Pix</h4>
+      <p class="pix-instruction">Escaneie o QR Code abaixo com o aplicativo do seu banco:</p>
+      <div class="qr-code-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Link_pra_pagina_principal_da_Wikipedia-PT_em_codigo_QR_b.svg" alt="QR Code Pix" class="qr-code-image">
+      </div>
+      <p class="pix-key">Chave Pix: <strong>comidacaseira &#64;gmail.com</strong></p>
+      <p class="pix-instruction-final">Após o pagamento, clique em "Finalizar Pedido".</p>
+    </div>
+  </div>
+
+  <div class="form-group observation-group">
+    <label for="observation">Observações do Pedido (opcional)</label>
+    <textarea id="observation" [(ngModel)]="observation" rows="3" placeholder="Ex: Sem cebola, molho à parte, etc."></textarea>
+  </div>
+
+  <button (click)="placeOrder()" class="btn-finalize">Finalizar Pedido</button>
+</div>

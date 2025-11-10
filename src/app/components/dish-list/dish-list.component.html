@@ -1,0 +1,44 @@
+<div class="dish-list-container">
+  <div class="header-container">
+    <h2>Cardápio</h2>
+    <div class="search-wrapper">
+      <i class="fas fa-search search-icon"></i>
+      <input
+        type="text"
+        placeholder="Buscar por nome ou descrição..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearchInput()"
+        class="search-input"
+      />
+      <button *ngIf="searchTerm" (click)="clearSearch()" class="clear-button">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-indicator">
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>Buscando pratos...</p>
+  </div>
+
+  <div *ngIf="!isLoading && filteredDishes.length === 0" class="no-dishes-message">
+    <p>Nenhum prato encontrado  {{ searchTerm }}</p>
+  </div>
+
+  <div class="dish-grid">
+    <div *ngFor="let dish of filteredDishes" class="dish-card">
+      <div class="dish-image-wrapper">
+        <img *ngIf="dish.photoUrl" [src]="dish.photoUrl" alt="{{ dish.name }}" class="dish-image">
+        <div class="dish-price-tag">{{ dish.price | currency:'BRL' }}</div>
+      </div>
+      <div class="dish-content">
+        <h3 class="dish-name">{{ dish.name }}</h3>
+        <p class="dish-description">{{ dish.description }}</p>
+        <div class="dish-actions">
+          <button (click)="addToCart(dish)" class="add-to-cart-btn">Adicionar</button>
+          <button (click)="removeDish(dish.id)" class="remove-dish-btn">Remover</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

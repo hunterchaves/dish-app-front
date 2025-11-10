@@ -1,0 +1,32 @@
+<div class="container">
+  <h2>Pedidos Prontos para Entrega</h2>
+  <div *ngIf="orders.length === 0" class="alert alert-info">
+    Nenhum pedido pronto para entrega no momento.
+  </div>
+  <div *ngIf="orders.length > 0" class="order-list">
+    <div *ngFor="let order of orders" class="order-item">
+      <div class="order-details">
+        <p><strong>Pedido ID:</strong> {{ order.id }}</p>
+        <p><strong>Total:</strong> {{ order.totalPrice | currency:'BRL' }}</p>
+        <p><strong>Status:</strong> {{ order.status }}</p>
+        <p><strong>Horário:</strong> {{ order.timestamp | date:'short' }}</p>
+        <div *ngIf="order.orderItems && order.orderItems.length > 0">
+          <strong>Itens:</strong>
+          <ul>
+            <li *ngFor="let item of order.orderItems">
+              {{ item.quantity }}x {{ item.dish.name }}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="order-actions">
+        <button *ngIf="order.status === 'READY_FOR_DELIVERY'" class="btn btn-primary" (click)="markAsOutForDelivery(order.id)">
+          Marcar como Saiu para Entrega
+        </button>
+        <button *ngIf="order.status === 'OUT_FOR_DELIVERY'" class="btn btn-success" (click)="markAsDelivered(order.id)">
+          Marcar como Entregue
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

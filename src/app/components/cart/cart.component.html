@@ -1,0 +1,57 @@
+<div class="cart-container">
+  <div class="cart-header">
+    <h1>Meu Pedido</h1>
+    <a routerLink="/" class="continue-shopping">Continuar comprando</a>
+  </div>
+
+  <div *ngIf="(items$ | async) as items; else emptyCart">
+    <div *ngIf="items.length > 0; else emptyCart" class="cart-main">
+      <div class="cart-items-section">
+        <div *ngFor="let item of items" class="cart-item-card">
+          <div class="item-image-container">
+            <img [src]="item.dish.photoUrl || 'https://placehold.co/120x120'" alt="{{ item.dish.name }}" class="item-image">
+          </div>
+          <div class="item-info-container">
+            <h3 class="item-name">{{ item.dish.name }}</h3>
+            <p class="item-description">{{ item.dish.description }}</p>
+            <div class="item-quantity-controls">
+              <button (click)="updateQuantity(item.dish.id, -1)" class="quantity-button">-</button>
+              <span class="item-quantity">{{ item.quantity }}</span>
+              <button (click)="updateQuantity(item.dish.id, 1)" class="quantity-button">+</button>
+            </div>
+          </div>
+          <div class="item-price-container">
+            <p class="item-price">{{ (item.dish.price * item.quantity) | currency:'BRL' }}</p>
+            <button (click)="removeFromCart(item.dish.id)" class="remove-button">Remover</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="order-summary-section">
+        <div class="summary-card">
+          <h2>Resumo do Pedido</h2>
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span>{{ (total$ | async) | currency:'BRL' }}</span>
+          </div>
+          <div class="summary-total-row">
+            <strong>Total</strong>
+            <strong>{{ ((total$ | async) ?? 0) | currency:'BRL' }}</strong>
+          </div>
+          <button (click)="checkout()" class="checkout-action-button" [disabled]="items.length === 0">
+            Finalizar Pedido
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #emptyCart>
+    <div class="empty-cart-placeholder">
+      <i class="fas fa-concierge-bell empty-cart-icon"></i>
+      <h2>Seu carrinho está vazio</h2>
+      <p>Explore nosso cardápio e adicione seus pratos favoritos.</p>
+      <a routerLink="/" class="explore-menu-button">Ver Cardápio</a>
+    </div>
+  </ng-template>
+</div>

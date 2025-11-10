@@ -1,0 +1,21 @@
+<div class="order-list">
+  <h2>Pedidos Entregues</h2>
+  <div *ngIf="deliveredOrders.length === 0" class="no-orders-message">
+    <p>Nenhum pedido entregue encontrado.</p>
+  </div>
+  <div *ngFor="let order of deliveredOrders" class="order-item">
+    <h3>Pedido #{{ order.id }}</h3>
+    <p><strong>Status:</strong> {{ order.status }}</p>
+    <p><strong>Total:</strong> R$ {{ order.totalPrice | number:'1.2-2' }}</p>
+    <p><strong>Método de Pagamento:</strong> {{ order.paymentMethod }}</p>
+    <h4>Itens:</h4>
+    <ul>
+      <li *ngFor="let item of order.orderItems">
+        {{ item.dish.name }} (x{{ item.quantity }}) - R$ {{ item.dish.price * item.quantity | number:'1.2-2' }}
+      </li>
+    </ul>
+    <p><strong>Observação:</strong> {{ order.observation || 'Nenhuma' }}</p>
+    <p><strong>Data do Pedido:</strong> {{ order.timestamp | date:'shortDate' }}</p>
+    <p><strong>Horário:</strong> {{ order.timestamp | date:'shortTime' }}</p>
+  </div>
+</div>

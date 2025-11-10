@@ -1,0 +1,38 @@
+<h2>Acompanhe seu Pedido</h2>
+
+<div *ngIf="order$ | async as order; else loadingOrNotFound">
+  <div class="order-status-container">
+    <h3>Pedido #{{ order.id.substring(0, 7) }}</h3>
+
+    <div class="status-tracker">
+      <div class="status-step" [ngClass]="{'completed': order.status === 'PENDING' || order.status === 'IN_PREPARATION' || order.status === 'OUT_FOR_DELIVERY' || order.status === 'DELIVERED'}">Pendente</div>
+      <div class="status-step" [ngClass]="{'completed': order.status === 'IN_PREPARATION' || order.status === 'OUT_FOR_DELIVERY' || order.status === 'DELIVERED'}">Em Preparo</div>
+      <div class="status-step" [ngClass]="{'completed': order.status === 'OUT_FOR_DELIVERY' || order.status === 'DELIVERED'}">Saiu para Entrega</div>
+      <div class="status-step" [ngClass]="{'completed': order.status === 'DELIVERED'}">Entregue</div>
+    </div>
+
+    <div class="current-status">
+      Status atual: <strong>{{ translateStatus(order.status) }}</strong>
+      <p *ngIf="order.status === 'DELIVERED'" class="delivered-message">Seu pedido foi entregue. Bom apetite!</p>
+    </div>
+
+    <div class="order-summary">
+      <h4>Resumo do Pedido</h4>
+      <div *ngFor="let item of order.orderItems" class="order-item">
+        <span>{{ item.quantity }}x {{ item.dish.name }}</span>
+        <span>{{ (item.dish.price * item.quantity) | currency:'BRL' }}</span>
+      </div>
+      <div class="order-total">
+        <strong>Total: {{ order.totalPrice | currency:'BRL' }}</strong>
+      </div>
+    </div>
+
+
+
+    <a routerLink="/" class="new-order-link">Fazer novo pedido</a>
+  </div>
+</div>
+
+<ng-template #loadingOrNotFound>
+  <p>Carregando pedido ou pedido não encontrado...</p>
+</ng-template>
