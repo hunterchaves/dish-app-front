@@ -1,0 +1,40 @@
+<div class="kitchen-order-management-container">
+  <h2>Gerenciamento de Pedidos da Cozinha</h2>
+
+  <div *ngIf="orders.length === 0" class="no-orders-message">
+    <p>Nenhum pedido pendente ou em preparo.</p>
+  </div>
+
+  <div class="order-list">
+    <div *ngFor="let order of orders" class="order-card">
+      <h3>Pedido #{{ order.id }}</h3>
+      <p>Status: <strong>{{ order.status }}</strong></p>
+      <p *ngIf="order.observation">Observação: {{ order.observation }}</p>
+      
+      <h4>Itens:</h4>
+      <ul>
+        <li *ngFor="let item of order.items">
+          {{ item.dish.name }} x {{ item.quantity }} (R$ {{ item.dish.price | number:'1.2-2' }})
+        </li>
+      </ul>
+      <p class="total-price">Total: R$ {{ order.total | number:'1.2-2' }}</p>
+
+      <div class="order-actions">
+        <button 
+          (click)="updateOrderStatus(order, 'Em Preparo')"
+          [disabled]="order.status === 'Em Preparo' || order.status === 'Saiu para Entrega' || order.status === 'Entregue'"
+          class="btn-prepare"
+        >
+          Em Preparo
+        </button>
+        <button 
+          (click)="updateOrderStatus(order, 'Saiu para Entrega')"
+          [disabled]="order.status === 'Saiu para Entrega' || order.status === 'Entregue'"
+          class="btn-ready"
+        >
+          Pronto para Entrega
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

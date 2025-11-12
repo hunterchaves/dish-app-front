@@ -1,0 +1,241 @@
+/* General Styling */
+.payment-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background-color: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+  color: var(--text-color);
+}
+
+h2 {
+  text-align: center;
+  color: var(--primary-brown);
+  margin-bottom: 2.5rem;
+  font-size: 2em;
+  font-weight: 700;
+}
+
+/* Section Headers */
+.order-summary h3, .payment-method-selection h3, .card-details-form h4, .pix-details-display h4 {
+  border-bottom: 1px solid var(--light-gray);
+  padding-bottom: 0.8rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary-brown);
+  font-size: 1.4em;
+  font-weight: 600;
+}
+
+/* Order Summary */
+.order-summary ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1.5rem;
+}
+
+.order-summary li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.7rem 0;
+  border-bottom: 1px dashed var(--light-gray);
+  font-size: 1.1em;
+}
+
+.order-summary li:last-child {
+  border-bottom: none;
+}
+
+.total {
+  text-align: right;
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-green); /* Green for total */
+}
+
+/* Payment Method Selection */
+.payment-method-selection {
+  margin-top: 2.5rem;
+}
+
+.payment-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.payment-option-card {
+  background-color: var(--light-gray);
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.payment-option-card:hover {
+  border-color: var(--primary-green);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.payment-option-card.selected {
+  border-color: var(--primary-green);
+  background-color: #eafcf2; /* Light green tint */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.payment-option-card i {
+  font-size: 2.5em;
+  margin-bottom: 0.8rem;
+  color: var(--primary-green); /* Green for icons */
+}
+
+.payment-option-card span {
+  font-size: 1.1em;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Card Details Form */
+.card-details-form {
+  background-color: var(--white);
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-top: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0,0,0.08);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.form-group input[type="text"] {
+  width: calc(100% - 20px);
+  padding: 12px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1em;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus {
+  border-color: var(--primary-green);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(34, 139, 34, 0.2);
+}
+
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+/* Pix Details Display */
+.pix-details-display {
+  text-align: center;
+  background-color: var(--white);
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-top: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.pix-instruction {
+  font-size: 1.1em;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.qr-code-container {
+  margin: 1.5rem auto;
+  padding: 1rem;
+  background-color: var(--white);
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  display: inline-block; /* To center the container */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.qr-code-image {
+  width: 180px;
+  height: 180px;
+  display: block;
+}
+
+.pix-key {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: var(--primary-brown);
+  margin-top: 1.5rem;
+}
+
+.pix-instruction-final {
+  font-size: 1em;
+  color: var(--text-color);
+  margin-top: 1rem;
+}
+
+/* Finalize Button */
+.btn-finalize {
+  display: block;
+  width: 100%;
+  padding: 1.2rem;
+  background-color: var(--primary-green); /* Green, similar to Mercado Pago */
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 3rem;
+  font-weight: 600;
+}
+
+.btn-finalize:hover {
+  background-color: var(--accent-green);
+  transform: translateY(-2px);
+}
+
+.btn-finalize:active {
+  transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .payment-container {
+    padding: 1.5rem;
+    margin: 1rem auto;
+  }
+
+  .payment-options-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .form-row .form-group {
+    margin-bottom: 1.5rem;
+  }
+}

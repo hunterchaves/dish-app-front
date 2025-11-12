@@ -1,0 +1,39 @@
+<h2>Seu Carrinho</h2>
+<div class="cart-page-container">
+  <div class="cart-items-list">
+    <div *ngIf="(items$ | async) as items; else emptyCart">
+      <div *ngIf="items.length > 0; else emptyCart">
+        <div *ngFor="let item of items" class="cart-item-card">
+          <img [src]="item.dish.photoUrl || 'https://placehold.co/100x100'" alt="{{ item.dish.name }}" class="item-image">
+          <div class="item-details">
+            <h3 class="item-name">{{ item.dish.name }}</h3>
+            <p class="item-price">{{ item.dish.price | currency:'BRL' }}</p>
+          </div>
+          <div class="item-controls">
+            <button (click)="updateQuantity(item.dish.id, -1)" class="control-btn">-</button>
+            <span class="item-quantity">{{ item.quantity }}</span>
+            <button (click)="updateQuantity(item.dish.id, 1)" class="control-btn">+</button>
+          </div>
+          <p class="item-total-price">{{ (item.dish.price * item.quantity) | currency:'BRL' }}</p>
+          <button (click)="removeFromCart(item.dish.id)" class="remove-btn">&times;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cart-summary">
+    <h3>Resumo do Pedido</h3>
+    <div class="summary-total">
+      <span>Total</span>
+      <strong>{{ (total$ | async) | currency:'BRL' }}</strong>
+    </div>
+    <button (click)="checkout()" class="place-order-btn" [disabled]="(items$ | async)?.length === 0">Finalizar Pedido</button>
+  </div>
+</div>
+
+<ng-template #emptyCart>
+  <div class="empty-cart-message">
+    <p>Seu carrinho está vazio.</p>
+    <a routerLink="/">Ver cardápio</a>
+  </div>
+</ng-template>
