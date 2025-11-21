@@ -1,0 +1,28 @@
+<h2>Gerenciamento de Pratos</h2>
+<div class="dish-management-container">
+  <div *ngIf="(dishes$ | async) as dishes; else noDishes">
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Descrição</th>
+          <th>Preço</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dish of dishes">
+          <td>{{ dish.name }}</td>
+          <td>{{ dish.description }}</td>
+          <td>{{ dish.price | currency:'BRL' }}</td>
+          <td>
+            <button (click)="deleteDish(dish.id)" class="delete-btn">Deletar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #noDishes>
+    <p>Nenhum prato cadastrado.</p>
+  </ng-template>
+</div>
