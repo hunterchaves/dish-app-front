@@ -27,8 +27,11 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
 
 ## projeto full stack 
-ciado por;Emanuel chaves
+ciado por;
 Carlos Eduardo dos Santos Farias de Souza
 Camille Santos Almeida
+Emanuel chaves
+Fernando Pereira
+Higor Rosa
 Victor Marcon de Freitas 
 
